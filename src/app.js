@@ -10,12 +10,15 @@ const app = express();
 
 app.use(compression());
 app.use(cors());
-app.use(bodyParser());
+app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, '../client')));
 
 require('./loaders');
+require('./middlewares/passport');
 require('./api-routes').default(app);
+
+app.use(require('./middlewares/errorHandler').default);
 
 if (!config.IS_PODUCTION) {
   app.use(
@@ -27,8 +30,6 @@ if (!config.IS_PODUCTION) {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
-
-app.use(require('./middlewares/errorHandler'));
 
 app.listen(config.PORT, () => {
   console.log(`Server listen on port: ${config.PORT}`);

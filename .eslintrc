@@ -19,7 +19,11 @@
     "arrow-parens": "off",
     "no-console": "off",
     "func-names": "off",
-    "space-before-function-paren":"off",
-    "prettier/prettier": "error"
+    "space-before-function-paren": "off",
+    "prettier/prettier": "error",
+    "no-throw-literal": "off",
+    "no-underscore-dangle": "off",
+    "consistent-return": "off",
+    "arrow-body-style": "off"
   }
 }

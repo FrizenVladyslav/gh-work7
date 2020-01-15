@@ -1,4 +1,4 @@
-module.exports = (e, req, res) => {
+export default (e, req, res, next) => {
   if (e.name && e.name === 'ValidationError') {
     res.status(400).json({
       message: e.message,
@@ -8,4 +8,5 @@ module.exports = (e, req, res) => {
       message: e.message || e,
     });
   }
+  next();
 };

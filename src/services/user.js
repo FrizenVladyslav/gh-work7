@@ -1,4 +1,5 @@
 import { Container } from 'typedi';
+import moment from 'moment';
 
 class UserService {
   constructor(container) {
@@ -15,8 +16,8 @@ class UserService {
     return users;
   }
 
-  async findOne(id) {
-    const user = await this.userModel.findById(id);
+  async findOne(filters) {
+    const user = await this.userModel.findOne(filters);
     return user;
   }
 
@@ -31,6 +32,24 @@ class UserService {
 
   async delete(id) {
     await this.userModel.findOneAndDelete(id);
+  }
+
+  async statistic() {
+    const today = moment();
+    const users = await this.findAll({
+      createdAt: {
+        $gte: today.startOf('month').toDate(),
+        $lte: today.endOf('month').toDate(),
+      },
+    });
+    if (!users || !users.length) return [];
+
+    return [...Array(today.endOf('month').get('date'))].map((day, index) => ({
+      day: index + 1,
+      count: users.filter(
+        ({ createdAt }) => moment(createdAt).get('date') === index + 1,
+      ).length,
+    }));
   }
 }
 

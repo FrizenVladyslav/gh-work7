@@ -3,12 +3,19 @@ import moment from 'moment';
 
 class UserService {
   constructor(container) {
+    this.fileService = container.get('fileService');
     this.userModel = container.get('userModel');
   }
 
   async create(data) {
     const user = await this.userModel.create(data);
     return user;
+  }
+
+  async createBulk(filename) {
+    const data = await this.fileService.parseCSV(filename);
+    const insertedIds = await this.userModel.collection.insertMany(data);
+    return insertedIds;
   }
 
   async findAll(filters = {}) {

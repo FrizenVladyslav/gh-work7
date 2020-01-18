@@ -1,11 +1,17 @@
 import { Router } from 'express';
 import { Container } from 'typedi';
+import * as path from 'path';
 import multer from 'multer';
 
 const dirName = 'uploads/';
-const uploads = multer({ dest: dirName });
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, dirName),
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const uploads = multer({ dest: dirName, storage });
 const fileService = Container.get('fileService');
-
 const router = new Router();
 
 router.get('/:filename', async (req, res) => {

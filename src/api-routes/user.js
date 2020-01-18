@@ -47,6 +47,13 @@ router.post(
   },
 );
 
+router.post('/bulk/:filename', async (req, res) => {
+  const { filename } = req.params;
+  const insertedIds = await userService.createBulk(filename, res);
+
+  res.json(insertedIds);
+});
+
 router.post('/register', validate(validator.create), async (req, res) => {
   const { password, ...rest } = req.body;
 

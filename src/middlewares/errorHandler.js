@@ -10,3 +10,10 @@ export default (e, req, res, next) => {
   }
   next();
 };
+
+export function badRequestException(message) {
+  throw {
+    name: 'ValidationError',
+    message,
+  };
+}

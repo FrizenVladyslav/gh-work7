@@ -24,7 +24,13 @@ router.post('/', uploads.single('file'), async (req, res) => {
     return res.status(400).json({ message: 'File is required' });
   }
 
-  res.send(req.file.filename);
+  const { filename } = req.file;
+  const videoFormats = ['.avi', '.flv', '.mkv', '.ogg'];
+  if (videoFormats.includes(path.extname(filename))) {
+    fileService.convertVideo(filename);
+  }
+
+  res.send(filename);
 });
 
 export default router;

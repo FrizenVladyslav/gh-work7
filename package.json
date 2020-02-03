@@ -27,6 +27,7 @@
     "dotenv-flow": "^3.1.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "fluent-ffmpeg": "^2.1.2",
     "geekhub-csv-parser": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",

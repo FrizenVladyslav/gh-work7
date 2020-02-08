@@ -12,6 +12,7 @@ const UserSchema = new Schema(
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
     hash: String,
     salt: String,
+    balance: { type: Number, default: 0 },
   },
   {
     timestamps: true,

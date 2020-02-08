@@ -1,5 +1,6 @@
 import { Container } from 'typedi';
 import moment from 'moment';
+import _ from 'lodash';
 
 class UserService {
   constructor(container) {
@@ -29,12 +30,22 @@ class UserService {
   }
 
   async update(id, data) {
+    const newData = _.omit(data, ['balance']);
     const user = this.userModel.findByIdAndUpdate(
       id,
-      { $set: data },
+      { $set: newData },
       { new: true },
     );
     return user;
+  }
+
+  async replenishBalance(id, amount) {
+    const user = await this.userModel.findByIdAndUpdate(
+      id,
+      { $inc: { balance: amount } },
+      { new: true },
+    );
+    return user.balance;
   }
 
   async delete(id) {

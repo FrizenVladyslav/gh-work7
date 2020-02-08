@@ -1,2 +1,4 @@
-require('./dependencyInjector');
-require('./mongoose');
+export default async () => {
+  await require('./dependencyInjector').default;
+  require('./mongoose');
+};

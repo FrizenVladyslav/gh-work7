@@ -14,23 +14,25 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, '../client')));
 
-require('./loaders');
-require('./middlewares/passport');
-require('./api-routes').default(app);
+(async () => {
+  await require('./loaders').default();
+  require('./middlewares/passport');
+  require('./api-routes').default(app);
 
-app.use(require('./middlewares/errorHandler').default);
+  app.use(require('./middlewares/errorHandler').default);
 
-if (!config.IS_PODUCTION) {
-  app.use(
-    '/api-docs',
-    swaggerUi.serve,
-    swaggerUi.setup(require('./swagger.json')),
-  );
-}
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
-});
+  if (!config.IS_PODUCTION) {
+    app.use(
+      '/api-docs',
+      swaggerUi.serve,
+      swaggerUi.setup(require('./swagger.json')),
+    );
+  }
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/index.html'));
+  });
 
-app.listen(config.PORT, () => {
-  console.log(`Server listen on port: ${config.PORT}`);
-});
+  app.listen(config.PORT, () => {
+    console.log(`Server listen on port: ${config.PORT}`);
+  });
+})();

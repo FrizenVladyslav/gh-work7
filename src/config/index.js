@@ -9,4 +9,5 @@ export default {
   IS_PODUCTION: process.env.NODE_ENV === 'production',
   DB_URL: process.env.DB_URL || 'mongodb://localhost:27017/geekhub',
   JWT_SECRET: process.env.JWT_SECRET || 'secret',
+  STRIPE_SECRET: process.env.STRIPE_SECRET,
 };

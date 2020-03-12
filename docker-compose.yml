@@ -1,0 +1,22 @@
+version: "3.1"
+
+services:
+  db:
+    container_name: mongo
+    image: mongo
+    expose:
+      - '27017'
+    volumes:
+      - db_data_container:/data/db
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    links:
+      - db
+    depends_on:
+      - db
+    restart: on-failure
+
+volumes:
+  db_data_container:
